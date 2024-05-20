@@ -2,6 +2,7 @@
 by Gabriel Nkole
 
 ## Description
+__. Grass and Height Map textures obtained from: https://github.com/GarrettGunnell/Grass
 
 ## Screenshots
 ![Screenshot](https://github.com/gabriel-nkole/BillboardGrass/assets/101514971/0da4a3a7-eeec-4d6c-997a-c841d680cca8)
