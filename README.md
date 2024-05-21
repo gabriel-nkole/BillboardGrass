@@ -5,7 +5,7 @@ by Gabriel Nkole
 Grass rendering with Billboards.
 - Grass and Height Map textures obtained from: https://github.com/GarrettGunnell/Grass
 
-## Screenshots
+## Screenshots/Video
 https://github.com/gabriel-nkole/BillboardGrass/assets/101514971/283ace7b-bcbe-4fb6-bcf3-b98fd4288804
 
 ![Screenshot](https://github.com/gabriel-nkole/BillboardGrass/assets/101514971/0da4a3a7-eeec-4d6c-997a-c841d680cca8)
