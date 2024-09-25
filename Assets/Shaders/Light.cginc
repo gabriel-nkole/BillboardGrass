@@ -25,12 +25,12 @@ Interpolators Domain(
     float3 normal = normalize(BARYCENTRIC_INTERPOLATE(normalWS));
     
     float3 positionOS = BARYCENTRIC_INTERPOLATE(positionOS);
-    positionOS += _DispStrength * tex2Dlod(_HeightMap, float4(uv, 0, 0)).x * normal;
+    positionOS.y += _DispStrength * (tex2Dlod(_HeightMap, float4(uv, 0, 0)).x - 0.5);
     v.pos = UnityObjectToClipPos(float4(positionOS, 1.0));
     v.vertex = float4(positionOS, 1);
     v.uv = uv;
                 
-    v.wPos = BARYCENTRIC_INTERPOLATE(positionWS);
+    v.wPos = mul(UNITY_MATRIX_M, float4(positionOS, 1.0)).xyz;
     v.normal = normal;
     float4 tangent = BARYCENTRIC_INTERPOLATE(tangent);
     v.tangent = UnityObjectToWorldDir(tangent.xyz);
@@ -62,12 +62,11 @@ float4 frag (Interpolators i) : SV_Target{
 
 
 
-    float3 col = 0;
+    float3 col = tex2D(_MainTex, i.uv).xyz * _Brightness;
                 
     //lambert
-    col += saturate(dot(N, L));
-    float3 surfColor = tex2D(_MainTex, i.uv) * _Albedo;
-    col *= surfColor * _LightColor0.xyz * attenuation;
+    float lambertDiffuse = DotClamped(N, L);
+    col *= lambertDiffuse * _LightColor0.xyz * attenuation;
 
 
     #ifdef IS_IN_BASE_PASS

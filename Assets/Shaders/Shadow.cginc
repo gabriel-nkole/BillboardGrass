@@ -19,7 +19,7 @@ Interpolators Domain(
     float2 uv = BARYCENTRIC_INTERPOLATE(uv);
 
     float3 positionOS = BARYCENTRIC_INTERPOLATE(positionOS);
-    positionOS += _DispStrength * tex2Dlod(_HeightMap, float4(uv, 0, 0)).x * normal;
+    positionOS.y += _DispStrength * (tex2Dlod(_HeightMap, float4(uv, 0, 0)).x - 0.5);
     v.pos = UnityObjectToClipPos(float4(positionOS, 1.0));
                 
     float4 opos = UnityClipSpaceShadowCasterPos(positionOS, normal);

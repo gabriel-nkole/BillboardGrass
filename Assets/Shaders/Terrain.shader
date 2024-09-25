@@ -1,6 +1,6 @@
 Shader "Custom/Terrain" {
     Properties {
-        _Albedo ("Albedo", Color) = (1, 1, 1, 1)
+        _Brightness ("Brightness", Range(0, 1)) = 1
         _Ambient ("Ambient", Color) = (0, 0, 0, 1)
         [NoScaleOffset] _MainTex ("Terrain Texture", 2D) = "white" {}
         [NoScaleOffset] _NormalMap ("Normal Map", 2D) = "white" {}
@@ -38,7 +38,7 @@ Shader "Custom/Terrain" {
             Blend One One
             
             CGPROGRAM
-            #pragma target 5.0
+            #pragma target 4.5
             #pragma vertex vert
             #pragma hull Hull
             #pragma domain Domain addshadow
@@ -55,7 +55,7 @@ Shader "Custom/Terrain" {
             Tags {"LightMode"="ShadowCaster"}
             
             CGPROGRAM
-            #pragma target 5.0
+            #pragma target 4.5
             #pragma vertex vert
             #pragma hull Hull
             #pragma domain Domain

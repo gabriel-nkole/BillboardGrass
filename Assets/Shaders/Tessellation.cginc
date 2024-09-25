@@ -1,8 +1,7 @@
-#include "UnityCG.cginc"
 #include "Lighting.cginc"
 #include "AutoLight.cginc"
 
-float4 _Albedo;
+float _Brightness;
 float4 _Ambient;
 sampler2D _MainTex;
 sampler2D _NormalMap;
@@ -123,5 +122,3 @@ TessellationFactors PatchConstantFunction(
 		patch[0].fieldName * barycentricCoordinates.x + \
 		patch[1].fieldName * barycentricCoordinates.y + \
 		patch[2].fieldName * barycentricCoordinates.z
-
-

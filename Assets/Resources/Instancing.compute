@@ -1,0 +1,61 @@
+#include "TRS.cginc"
+#include "Simplex.compute"
+
+#pragma kernel ComputeGrassHeights
+#pragma kernel ComputeTransformations
+
+
+sampler2D _HeightMap;
+
+float _Resolution;
+float _Density;
+float _DispStrength;
+float4x4 _ParentToWorld;
+
+RWStructuredBuffer<float> _GrassHeights;
+RWStructuredBuffer<float4x4> _Matrices;
+float _Angle;
+
+
+
+[numthreads(8,8,1)]
+void ComputeGrassHeights (uint3 _id : SV_DispatchThreadID){
+    float2 id = float2(_id.xy);
+
+	if(id.x < _Resolution && id.y < _Resolution){
+		//xz position
+        float2 posXZ = (id - 0.5 * (_Resolution - 1.0))/_Density;
+
+        //grass height
+        float noise = abs(snoise(float3(posXZ, 0) * 0.2));
+        float grassHeight = lerp(0.6, 2.0, noise);
+
+        _GrassHeights[_id.y*(uint)_Resolution + _id.x] = grassHeight;
+	}
+}
+
+
+[numthreads(8,8,1)]
+void ComputeTransformations (uint3 _id : SV_DispatchThreadID){
+    float2 id = float2(_id.xy);
+
+	if(id.x < _Resolution && id.y < _Resolution){
+        float2 posXZ = (id - 0.5 * (_Resolution - 1.0))/_Density;
+        float grassHeight = _GrassHeights[id.y*_Resolution + id.x];
+
+
+		//vertical displacement
+        //(wPos.x - left edge)/(Resolution/Density)      (wPos.z - bottom edge)/(Resolution/Density)
+        float2 uv = (posXZ + 0.5*_Resolution/_Density) * (_Density/_Resolution);
+        float vertDisp = (tex2Dlod(_HeightMap, float4(uv, 0, 0)).x - 0.5) * _DispStrength;
+
+        float3 translation = float3(posXZ.x, vertDisp + 0.5*grassHeight, posXZ.y);
+        translation.x += snoise(float3(posXZ, 0.0) * 3.0) * 0.4;
+        translation.z += snoise(float3(posXZ, 0.0) * 4.0) * 0.4;
+
+
+        //transformations
+	    float4x4 TRS = mul(Translate(translation), mul(Rotate(_Angle), Scale(float3(1,grassHeight,1))));
+		_Matrices[_id.y*(uint)_Resolution + _id.x] = mul(_ParentToWorld, TRS);
+	}
+}
