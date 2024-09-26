@@ -15,10 +15,8 @@ https://github.com/user-attachments/assets/6eec9e5f-c862-4778-9c10-71762b4c6cc7
 
 https://github.com/user-attachments/assets/9389c5ec-cad8-4c22-bbc5-c98d1a15ac09
 
-
-
 ## Assets
 - Grass, Terrain & Height Map Textures - Acerola (Garrett Gunnell) - https://github.com/GarrettGunnell/Grass
 
 ## References
-How Do Games Render So Much Grass? - https://www.youtube.com/watch?v=Y0Ko0kvwfgA
+- How Do Games Render So Much Grass? - https://www.youtube.com/watch?v=Y0Ko0kvwfgA
