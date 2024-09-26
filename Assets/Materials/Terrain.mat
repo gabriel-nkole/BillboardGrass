@@ -23,6 +23,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AlbedoMap:
+        m_Texture: {fileID: 2800000, guid: 80adeec0eaea4364a8bb42b5b0977a5a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _HeightMap:
         m_Texture: {fileID: 2800000, guid: 8a299a99dfe3b2544907cc969e31710c, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -45,5 +49,8 @@ Material:
     - _WindStrength: 1
     m_Colors:
     - _Albedo: {r: 0.3886792, g: 0.3886792, b: 0.3886792, a: 1}
+    - _Ambienst: {r: 0.08679241, g: 0.08679241, b: 0.08679241, a: 1}
     - _Ambient: {r: 0.08679241, g: 0.08679241, b: 0.08679241, a: 1}
+    - _Amsbient: {r: 0, g: 0, b: 0, a: 1}
+    - _Asmbient: {r: 0.08679241, g: 0.08679241, b: 0.08679241, a: 1}
   m_BuildTextureStacks: []

@@ -161,7 +161,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a80d4f460b65384ea1ed3dbd924cd01, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -307,7 +307,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -349,7 +349,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a80d4f460b65384ea1ed3dbd924cd01, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -432,7 +432,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a80d4f460b65384ea1ed3dbd924cd01, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -512,7 +512,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 1
   m_Shadows:
-    m_Type: 1
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 0.35
@@ -926,7 +926,7 @@ GameObject:
   - component: {fileID: 1714352272}
   - component: {fileID: 1714352271}
   m_Layer: 3
-  m_Name: GameObject
+  m_Name: PostProcess
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5868,7 +5868,7 @@ PrefabInstance:
       objectReference: {fileID: -462981019419857548, guid: 04d155699b369ec4d9ad7f08d317dd5e, type: 3}
     - target: {fileID: 919132149155446097, guid: 04d155699b369ec4d9ad7f08d317dd5e, type: 3}
       propertyPath: m_Name
-      value: Terrain
+      value: TerrainPlane
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 04d155699b369ec4d9ad7f08d317dd5e, type: 3}
       propertyPath: m_IsActive
@@ -5888,11 +5888,11 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 963194228}
+  - {fileID: 1714352272}
   - {fileID: 705507995}
   - {fileID: 1020633589}
+  - {fileID: 1968013095}
   - {fileID: 2075250346}
   - {fileID: 1517892488}
   - {fileID: 348439043}
   - {fileID: 1029653581}
-  - {fileID: 1714352272}
-  - {fileID: 1968013095}

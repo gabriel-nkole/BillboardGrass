@@ -42,7 +42,6 @@ public class GrassPlane : MonoBehaviour {
         matrices2Buffer = new ComputeBuffer(Resolution*Resolution, sizeof(float) * 16);
         matrices3Buffer = new ComputeBuffer(Resolution*Resolution, sizeof(float) * 16);
 
-
         args[0] = Mesh.GetIndexCount(0);
         args[1] = (uint)(Resolution * Resolution);
         args[2] = Mesh.GetIndexStart(0);
@@ -50,30 +49,33 @@ public class GrassPlane : MonoBehaviour {
         argsBuffer.SetData(args);
 
 
-        ComputeShader Instancing_CS = Resources.Load<ComputeShader>("Instancing");
-        Instancing_CS.SetTexture(1, "_HeightMap", HeightMap);
-        Instancing_CS.SetFloat("_Resolution", (float)Resolution);
-        Instancing_CS.SetFloat("_Density", (float)Density);
-        Instancing_CS.SetFloat("_DispStrength", (float)DisplacementStrength);
-        Instancing_CS.SetMatrix("_ParentToWorld", this.transform.localToWorldMatrix);
+
+        ComputeShader Grass_CS = Resources.Load<ComputeShader>("Grass");
+        Grass_CS.SetFloat("_Resolution", (float)Resolution);
+        Grass_CS.SetFloat("_Density", (float)Density);
+        Grass_CS.SetFloat("_DispStrength", (float)DisplacementStrength);
 
 
-        Instancing_CS.SetBuffer(0, "_GrassHeights", grassHeightsBuffer);
-        Instancing_CS.SetBuffer(1, "_GrassHeights", grassHeightsBuffer);
-        Instancing_CS.Dispatch(0, threadGroupsX, threadGroupsY, 1);
+        Grass_CS.SetBuffer(0, "_GrassHeights", grassHeightsBuffer);
+        Grass_CS.Dispatch(0, threadGroupsX, threadGroupsY, 1);
 
 
-        Instancing_CS.SetBuffer(1, "_Matrices", matricesBuffer);
-        Instancing_CS.SetFloat("_Angle", 0f);
-        Instancing_CS.Dispatch(1, threadGroupsX, threadGroupsY, 1);
+        Grass_CS.SetBuffer(1, "_GrassHeights", grassHeightsBuffer);
+        Grass_CS.SetTexture(1, "_HeightMap", HeightMap);
+        Grass_CS.SetMatrix("_ParentToWorld", this.transform.localToWorldMatrix);
 
-        Instancing_CS.SetBuffer(1, "_Matrices", matrices2Buffer);
-        Instancing_CS.SetFloat("_Angle", 45f);
-        Instancing_CS.Dispatch(1, threadGroupsX, threadGroupsY, 1);
+        Grass_CS.SetFloat("_Angle", 0f);
+        Grass_CS.SetBuffer(1, "_Matrices", matricesBuffer);
+        Grass_CS.Dispatch(1, threadGroupsX, threadGroupsY, 1);
+
+        Grass_CS.SetFloat("_Angle", 45f);
+        Grass_CS.SetBuffer(1, "_Matrices", matrices2Buffer);
+        Grass_CS.Dispatch(1, threadGroupsX, threadGroupsY, 1);
         
-        Instancing_CS.SetBuffer(1, "_Matrices", matrices3Buffer);
-        Instancing_CS.SetFloat("_Angle", -45f);
-        Instancing_CS.Dispatch(1, threadGroupsX, threadGroupsY, 1);
+        Grass_CS.SetFloat("_Angle", -45f);
+        Grass_CS.SetBuffer(1, "_Matrices", matrices3Buffer);
+        Grass_CS.Dispatch(1, threadGroupsX, threadGroupsY, 1);
+
 
 
         Mat.SetFloat("_Resolution", Resolution);

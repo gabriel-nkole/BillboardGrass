@@ -24,9 +24,12 @@ Interpolators Domain(
                 
     float4 opos = UnityClipSpaceShadowCasterPos(positionOS, normal);
     v.vec = UnityApplyLinearShadowBias(opos);
+
     return v;
 }
 
-float4 frag (Interpolators i) : SV_Target{
+
+
+float4 Fragment(Interpolators i) : SV_Target{
     return UnityEncodeCubeShadowDepth ((length(i.vec) + unity_LightShadowBias.x) * _LightPositionRange.w);
 }

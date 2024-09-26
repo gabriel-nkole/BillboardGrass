@@ -1,14 +1,15 @@
 Shader "Custom/Terrain" {
     Properties {
-        _Brightness ("Brightness", Range(0, 1)) = 1
-        _Ambient ("Ambient", Color) = (0, 0, 0, 1)
-        [NoScaleOffset] _MainTex ("Terrain Texture", 2D) = "white" {}
-        [NoScaleOffset] _NormalMap ("Normal Map", 2D) = "white" {}
         _TessellationEdgeLength ("Tessellation Edge Length", Range(1,100)) = 100
+        _DispStrength ("Displacement Strength", Range(0,200)) = 50
         [NoScaleOffset] _HeightMap ("Height Map", 2D) = "white" {}
-        _DispStrength ("Displacement Strength", Range(0,200)) = 100
-        _NormalStrength ("Normal Strength", Range(0,10)) = 5
+        _Brightness ("Brightness", Range(0, 1)) = 0.7
+        [NoScaleOffset] _AlbedoMap ("Terrain Texture", 2D) = "white" {}
+        _NormalStrength ("Normal Strength", Range(0,10)) = 0.53
+        [NoScaleOffset] _NormalMap ("Normal Map", 2D) = "white" {}
+        _Ambient ("Ambient Light", Color) = (0.08679241, 0.08679241, 0.08679241, 1)
     }
+
     SubShader {
         Tags { 
             "RenderType"="Opaque"
@@ -18,18 +19,19 @@ Shader "Custom/Terrain" {
 
         Pass {
             Tags {"LightMode"="ForwardBase"}
+
             CGPROGRAM
-            #pragma target 5.0
-            #pragma vertex vert
+            #pragma vertex Vertex
             #pragma hull Hull
             #pragma domain Domain   
-            #pragma fragment frag
+            #pragma fragment Fragment
+            #pragma target 4.5
 
             #pragma multi_compile_fwdbase
             
-            #include "Tessellation.cginc"
+            #include "Terrain_Tessellation.cginc"
             #define IS_IN_BASE_PASS
-            #include "Light.cginc"
+            #include "Terrain_Light.cginc"
             ENDCG
         }
 
@@ -38,16 +40,16 @@ Shader "Custom/Terrain" {
             Blend One One
             
             CGPROGRAM
-            #pragma target 4.5
-            #pragma vertex vert
+            #pragma vertex Vertex
             #pragma hull Hull
             #pragma domain Domain addshadow
-            #pragma fragment frag
+            #pragma fragment Fragment
+            #pragma target 4.5
 
             #pragma multi_compile_fwdadd_fullshadows
             
-            #include "Tessellation.cginc"
-            #include "Light.cginc"
+            #include "Terrain_Tessellation.cginc"
+            #include "Terrain_Light.cginc"
             ENDCG
         }
 
@@ -55,16 +57,16 @@ Shader "Custom/Terrain" {
             Tags {"LightMode"="ShadowCaster"}
             
             CGPROGRAM
-            #pragma target 4.5
-            #pragma vertex vert
+            #pragma vertex Vertex
             #pragma hull Hull
             #pragma domain Domain
-            #pragma fragment frag
+            #pragma fragment Fragment
+            #pragma target 4.5
 
             #pragma multi_compile_shadowcaster
             
-            #include "Tessellation.cginc"
-            #include "Shadow.cginc"
+            #include "Terrain_Tessellation.cginc"
+            #include "Terrain_Shadow.cginc"
             ENDCG
         }
     }

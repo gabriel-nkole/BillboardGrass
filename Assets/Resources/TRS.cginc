@@ -8,7 +8,7 @@ float4x4 Scale(float3 scale) {
                     0,          0,         0,       1);
 }
 
-float4x4 Rotate(float yDeg){
+float4x4 Rotate(float yDeg) {
     float yRad = Deg2Rad * yDeg;
 
     return float4x4( cos(yRad), 0, sin(yRad),       0,

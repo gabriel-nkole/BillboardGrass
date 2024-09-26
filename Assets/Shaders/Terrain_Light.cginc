@@ -21,8 +21,8 @@ Interpolators Domain(
 	UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(v);
 
 
-    float2 uv = BARYCENTRIC_INTERPOLATE(uv); 
     float3 normal = normalize(BARYCENTRIC_INTERPOLATE(normalWS));
+    float2 uv = BARYCENTRIC_INTERPOLATE(uv); 
     
     float3 positionOS = BARYCENTRIC_INTERPOLATE(positionOS);
     positionOS.y += _DispStrength * (tex2Dlod(_HeightMap, float4(uv, 0, 0)).x - 0.5);
@@ -40,11 +40,14 @@ Interpolators Domain(
     return v;
 }
 
-float4 frag (Interpolators i) : SV_Target{
+
+
+float4 Fragment(Interpolators i) : SV_Target {
     UNITY_SETUP_INSTANCE_ID(i);
     UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
 
 
+    // NORMAL VECTOR
     float3 tangentSpaceNormal = UnpackNormal(tex2D(_NormalMap, i.uv));
     tangentSpaceNormal = normalize(lerp(float3(0, 0, 1), tangentSpaceNormal, _NormalStrength));
 
@@ -56,22 +59,23 @@ float4 frag (Interpolators i) : SV_Target{
 
     float3 N = mul(mtxTangToWorld, tangentSpaceNormal);
                 
-                
+    // LIGHT VECTOR
     float3 L = normalize(UnityWorldSpaceLightDir(i.wPos));
     float attenuation = LIGHT_ATTENUATION(i);
 
 
-
-    float3 col = tex2D(_MainTex, i.uv).xyz * _Brightness;
+    // Texture Color
+    float3 col = tex2D(_AlbedoMap, i.uv).xyz * _Brightness;
                 
-    //lambert
+    // Diffuse Lighting
     float lambertDiffuse = DotClamped(N, L);
     col *= lambertDiffuse * _LightColor0.xyz * attenuation;
 
-
+    // Ambient Lighting
     #ifdef IS_IN_BASE_PASS
         col += _Ambient.xyz;
     #endif
+
 
     return float4(col, 1);
 }

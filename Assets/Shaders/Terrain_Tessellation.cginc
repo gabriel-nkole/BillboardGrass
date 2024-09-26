@@ -1,14 +1,16 @@
 #include "Lighting.cginc"
 #include "AutoLight.cginc"
 
-float _Brightness;
-float4 _Ambient;
-sampler2D _MainTex;
-sampler2D _NormalMap;
+
 float _TessellationEdgeLength;
-sampler2D _HeightMap;
 float _DispStrength;
+sampler2D _HeightMap;
+float _Brightness;
+sampler2D _AlbedoMap;
 float _NormalStrength;
+sampler2D _NormalMap;
+float4 _Ambient;
+
 
 struct MeshData {
 	float4 vertex : POSITION;
@@ -27,7 +29,7 @@ struct TessellationControlPoint {
 	UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
-TessellationControlPoint vert(MeshData v){
+TessellationControlPoint Vertex(MeshData v) {
 	TessellationControlPoint output;
 
 	UNITY_SETUP_INSTANCE_ID(v);
@@ -44,44 +46,24 @@ TessellationControlPoint vert(MeshData v){
 
 
 
-
-[domain("tri")]
-[outputcontrolpoints(3)]
-[outputtopology("triangle_cw")]
-[patchconstantfunc("PatchConstantFunction")]
-[partitioning("fractional_even")]
-TessellationControlPoint Hull(
-	InputPatch<TessellationControlPoint, 3> patch,
-	uint id : SV_OutputControlPointID
-){
-	return patch[id];		
-}
-
-
-struct TessellationFactors {
-	float edge[3] : SV_TessFactor;
-	float inside : SV_InsideTessFactor;
-};
-
-bool TriangleIsBelowClipPlane (
+bool TriangleIsBelowClipPlane(
 	float3 p0, float3 p1, float3 p2, int planeIndex, float bias
-){
+) {
 	float4 plane = unity_CameraWorldClipPlanes[planeIndex];
-	return
-		dot(float4(p0, 1), plane) < bias &&
-		dot(float4(p1, 1), plane) < bias &&
-		dot(float4(p2, 1), plane) < bias;
+	return dot(float4(p0, 1), plane) < bias &&
+		   dot(float4(p1, 1), plane) < bias &&
+		   dot(float4(p2, 1), plane) < bias;
 }
-bool TriangleIsCulled (float3 p0, float3 p1, float3 p2, float bias){
+
+bool TriangleIsCulled(float3 p0, float3 p1, float3 p2, float bias) {
 	return TriangleIsBelowClipPlane(p0, p1, p2, 0, bias) ||
 		   TriangleIsBelowClipPlane(p0, p1, p2, 1, bias) ||
 		   TriangleIsBelowClipPlane(p0, p1, p2, 2, bias) ||
 		   TriangleIsBelowClipPlane(p0, p1, p2, 3, bias);
 }
 
-float TessellationEdgeFactor (
-	float3 p0, float3 p1
-) {
+// Tessellate edge based on its distance from the camera and its pixel size
+float TessellationEdgeFactor(float3 p0, float3 p1) {
 	float edgeLength = distance(p0, p1);
 
 	float3 edgeCenter = (p0 + p1) * 0.5;
@@ -91,9 +73,24 @@ float TessellationEdgeFactor (
 }
 
 
-TessellationFactors PatchConstantFunction(
-	InputPatch<TessellationControlPoint, 3> patch)
-{
+[domain("tri")]
+[outputcontrolpoints(3)]
+[outputtopology("triangle_cw")]
+[patchconstantfunc("PatchConstantFunction")]
+[partitioning("fractional_even")]
+TessellationControlPoint Hull(
+	InputPatch<TessellationControlPoint, 3> patch,
+	uint id : SV_OutputControlPointID
+) {
+	return patch[id];		
+}
+
+struct TessellationFactors {
+	float edge[3] : SV_TessFactor;
+	float inside : SV_InsideTessFactor;
+};
+
+TessellationFactors PatchConstantFunction(InputPatch<TessellationControlPoint, 3> patch) {
 	UNITY_SETUP_INSTANCE_ID(patch[0]);
 	TessellationFactors f;
 
@@ -101,11 +98,11 @@ TessellationFactors PatchConstantFunction(
 	float3 p0 = patch[0].positionWS;
 	float3 p1 = patch[1].positionWS;
 	float3 p2 = patch[2].positionWS;
-	if (TriangleIsCulled(p0, p1, p2, bias)){
+	if (TriangleIsCulled(p0, p1, p2, bias)) {
 		f.edge[0] = f.edge[1] = f.edge[2] = f.inside = 0;
 	}
 	
-	else{
+	else {
 		f.edge[0] = TessellationEdgeFactor(p1, p2);
 		f.edge[1] = TessellationEdgeFactor(p2, p0);
 		f.edge[2] = TessellationEdgeFactor(p0, p1);
@@ -117,6 +114,8 @@ TessellationFactors PatchConstantFunction(
 
 	return f;
 }
+
+
 
 #define BARYCENTRIC_INTERPOLATE(fieldName) \
 		patch[0].fieldName * barycentricCoordinates.x + \
