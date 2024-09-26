@@ -82,28 +82,9 @@ UserSettings/Search.settings
 .vsconfig
 Assembly-CSharp.csproj
 BillboardGrass.sln
-Editor_FPS.png
-Editor_NoFPS.png
 Library/
 Logs/
-Screenshot.png
 obj/
-BillboardGrass_Video.mp4
-Old_BillboardGrass_Video_FPSCounter.mp4
-Old_Editor_FPS.png
-Old_Editor_NoFPS.png
-Old_Screenshot.png
-Screenshot_1.png
-Screenshot_2.png
-Screenshot_3.png
-Screenshot_4.png
-Screenshot_FPS.png
 Temp/
 notes.txt
-Screenshot_5.png
-BillboardGrass_Video [Compressed].mp4
-Editor_Grass.png
-Editor_Script.png
-Editor_Terrain.png
-BillboardGrass_Video [Compressed].mp4
-BillboardGrass_Video_Compressed.mp4
+Media/
