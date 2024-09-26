@@ -6,11 +6,14 @@ Grass rendering with Billboards.
 - Grass and Height Map textures obtained from: https://github.com/GarrettGunnell/Grass
 
 ## Screenshots/Video
-https://github.com/gabriel-nkole/BillboardGrass/assets/101514971/283ace7b-bcbe-4fb6-bcf3-b98fd4288804
+https://github.com/user-attachments/assets/6eec9e5f-c862-4778-9c10-71762b4c6cc7
 
-![Screenshot](https://github.com/gabriel-nkole/BillboardGrass/assets/101514971/0da4a3a7-eeec-4d6c-997a-c841d680cca8)
-![Editor_NoFPS](https://github.com/gabriel-nkole/BillboardGrass/assets/101514971/949c56c3-81eb-42a8-877c-6abee0f78ae6)
-![Editor_FPS](https://github.com/gabriel-nkole/BillboardGrass/assets/101514971/cfd4a4ef-1a8f-49e3-acdc-cb70fb7fb7cd)
+![Editor_FPS](https://github.com/user-attachments/assets/ae970ac3-ab41-49fd-a933-034ef40cdd31)
+![Screenshot_1](https://github.com/user-attachments/assets/e0a3064c-343a-4380-9922-f5541760a67c)
+![Screenshot_4](https://github.com/user-attachments/assets/4de1866a-5499-45f1-a769-388dc431d677)
+![Screenshot_2](https://github.com/user-attachments/assets/fc4f2281-49c5-4a42-b97c-d272416c57a7)
+![Screenshot_5](https://github.com/user-attachments/assets/fa9024b7-e94c-4962-b5de-a40d28a5f256)
+
 
 ## References
 How Do Games Render So Much Grass? - https://www.youtube.com/watch?v=Y0Ko0kvwfgA
