@@ -1,4 +1,4 @@
-![Editor_Script](https://github.com/user-attachments/assets/7a8a90f7-af97-433d-86fc-a38840d852a2)# BillboardGrass
+# BillboardGrass
 by Gabriel Nkole
 
 ## Description
